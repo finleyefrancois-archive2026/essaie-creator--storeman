@@ -1,0 +1,2 @@
+# storeman
+Light storage manager.
