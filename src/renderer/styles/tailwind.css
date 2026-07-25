@@ -1,0 +1,2 @@
+@import "tailwindcss";
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif}button:focus-visible,input:focus-visible{outline:4px solid #facc15;outline-offset:2px}

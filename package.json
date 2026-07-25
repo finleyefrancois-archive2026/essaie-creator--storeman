@@ -1,0 +1,27 @@
+{
+  "name": "grandma-storage-helper",
+  "version": "1.0.0",
+  "description": "Single-file portable desktop app that organizes files, detects duplicates, and keeps storage tidy.",
+  "main": "dist/main/main.js",
+  "author": "Grandma Storage Helper",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "npm run typecheck && tsc -p tsconfig.build.json && vite build && electron-builder --win portable",
+    "build:dir": "npm run typecheck && tsc -p tsconfig.build.json && vite build && electron-builder --dir",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "electron": "latest",
+    "electron-builder": "latest",
+    "tailwindcss": "latest"
+  },
+  "devDependencies": {}
+}
