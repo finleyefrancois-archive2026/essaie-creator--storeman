@@ -1,0 +1,19 @@
+appId: com.grandmastoragehelper.portable
+productName: Grandma Storage Helper
+artifactName: GrandmaStorageHelper.${ext}
+directories:
+  output: release
+files:
+  - dist/**
+  - package.json
+asar: true
+compression: maximum
+npmRebuild: false
+win:
+  target:
+    - target: portable
+      arch:
+        - x64
+  executableName: GrandmaStorageHelper
+portable:
+  artifactName: GrandmaStorageHelper.exe
