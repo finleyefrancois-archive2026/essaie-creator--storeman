@@ -20,3 +20,15 @@ coverage/
 .DS_Store
 .vscode/
 .idea/
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# python
+__pycache__/
+*.py[cod]
+.venv/
+/dist/

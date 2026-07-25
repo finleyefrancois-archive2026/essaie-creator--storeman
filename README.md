@@ -53,3 +53,16 @@ release/GrandmaStorageHelper.exe
 - Duplicate detection uses SHA-256 exact hashes.
 - Conflicting destination names are auto-renamed with `_1`, `_2`, and so on.
 - Works offline after the app is built.
+# Smart File Organizer
+
+A lightweight, portable storage manager that previews and organizes local files from a friendly web dashboard.
+
+## Quick start
+
+```bash
+python main_entry.py
+```
+
+Then open `http://localhost:8787`.
+
+See [`README_RELEASE.md`](README_RELEASE.md) for single-file executable build instructions.
