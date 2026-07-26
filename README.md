@@ -1,68 +1,119 @@
-# Grandma's Storage Helper
+# 📁 Smart File Organizer
 
-A single-file, portable Electron desktop app that helps non-technical people clean up storage safely. It scans folders, detects exact duplicate files, previews every move, organizes files by type and year, and keeps an undo log next to the executable for USB-drive portability.
+**A simple, safe file organizer for everyone.** No installation required. Just double-click and organize.
 
-## Zero-setup release goal
+Perfect for grandparents, parents, or anyone who wants to clean up their computer without technical complexity.
 
-The Windows release is built as `GrandmaStorageHelper.exe`, a portable executable target created by `electron-builder`. It does not install anything, does not require Python, and stores logs in `./data/audit_log.json` beside the executable.
+## ✨ Features
 
-## Run during development
+- **Preview First**: See exactly what will happen before any files move
+- **Safe & Reversible**: Undo button restores files if you change your mind
+- **Duplicate Detection**: Finds identical files using SHA-256 hashing
+- **Smart Organization**: Groups files by type (Documents, Photos, Videos, etc.)
+- **Works Offline**: No internet needed after you get the app
+- **Portable**: Runs from USB drive, no installation required
+- **Large, Clear Interface**: Easy to read buttons and text
 
-```bash
-npm install
-npm run dev
-```
+## 🚀 Quick Start (No Installation)
 
-In a second terminal, compile and launch Electron against the Vite dev server:
+### Option 1: Download Ready-to-Use Version
+1. Download `SmartOrganizer.exe` (Windows) or `SmartOrganizer` (Mac/Linux)
+2. Double-click to run
+3. Your browser opens automatically
+4. Select a folder to organize
+5. Click "Scan Now" to preview
+6. Review the changes
+7. Click "Start Organizing" when ready
 
-```bash
-npm run build:dir
-npx electron dist/main/main.js
-```
-
-## Build the portable Windows EXE
-
-Run this on a Windows 10/11 build computer:
-
-```bash
-npm install
-npm run build
-```
-
-The portable output is written to:
-
-```text
-release/GrandmaStorageHelper.exe
-```
-
-## Test on a clean machine
-
-1. Copy only `release/GrandmaStorageHelper.exe` to a USB drive.
-2. Plug the USB drive into a Windows 10/11 computer with no Node.js, npm, Python, or admin rights.
-3. Double-click `GrandmaStorageHelper.exe`.
-4. Scan a small test folder first.
-5. Confirm the preview shows the exact Before → After plan.
-6. Click **Organize Files**.
-7. Confirm `data/audit_log.json` appears beside the EXE on the USB drive.
-8. Click **Undo Last Action** and verify moved files return to their original folders.
-
-## Safety promises
-
-- Preview-first: files are not moved until the user approves.
-- Friendly errors for permission denied, locked files, missing files, and Windows path-too-long problems.
-- Duplicate detection uses SHA-256 exact hashes.
-- Conflicting destination names are auto-renamed with `_1`, `_2`, and so on.
-- Works offline after the app is built.
-# Smart File Organizer
-
-A lightweight, portable storage manager that previews and organizes local files from a friendly web dashboard.
-
-## Quick start
-
+### Option 2: Run from Source (for developers)
 ```bash
 python main_entry.py
 ```
+Then open http://localhost:8787 in your browser.
 
-Then open `http://localhost:8787`.
+## 📋 How to Use
 
-See [`README_RELEASE.md`](README_RELEASE.md) for single-file executable build instructions.
+1. **Pick Folder**: Choose the messy folder you want to organize
+2. **Choose Destination**: Pick where organized files should go (or leave blank for automatic)
+3. **Scan Now**: See a preview of all changes - nothing moves yet!
+4. **Review**: Check the "Before vs. After" list
+5. **Start Organizing**: Click the green button when you're ready
+6. **Undo if Needed**: Made a mistake? Click "Undo" to restore everything
+
+## 🛡️ Safety Features
+
+- **Never surprises you**: Preview shows every single file move
+- **Confirmation required**: Big warning dialog before moving anything
+- **Automatic renaming**: If files have same name, adds `_1`, `_2`, etc.
+- **Skip duplicates**: Identical files are detected and skipped
+- **Error handling**: Locked or protected files are skipped with clear messages
+- **Undo available**: Last action can always be undone
+
+## 📦 Build Your Own Executable
+
+### Windows
+```bat
+build_windows.bat
+```
+Output: `dist\SmartOrganizer.exe`
+
+### macOS / Linux
+```bash
+pip install pyinstaller
+pyinstaller build.spec
+```
+
+### Requirements for Building
+- Python 3.9 or newer
+- PyInstaller (installed automatically by build script)
+- 2-3 GB free disk space
+
+## 🔒 Security & Privacy
+
+- **Runs locally**: All processing happens on your computer
+- **No data collection**: Nothing is sent to the internet
+- **Limited access**: Only accesses folders you explicitly choose
+- **Path protection**: Prevents accidental access to system files
+- **Rate limiting**: Protects against accidental overload
+
+## 📊 What Gets Organized
+
+| Category | File Types |
+|----------|------------|
+| Documents | PDF, Word, Excel, PowerPoint, Text, CSV |
+| Images | JPG, PNG, GIF, BMP, TIFF, WebP, HEIC |
+| Videos | MP4, MOV, AVI, MKV, WMV, WebM |
+| Audio | MP3, WAV, AAC, FLAC, M4A, OGG |
+| Archives | ZIP, RAR, 7Z, TAR, GZ |
+| Other | Everything else stays in place |
+
+## ⌨️ Keyboard Shortcuts
+
+- `Ctrl+Z`: Undo last action
+- `Ctrl+Enter`: Execute organization (after scan)
+- `Escape`: Close dialogs
+
+## ❓ Troubleshooting
+
+**Q: The app won't start**  
+A: Make sure you have Python installed if running from source. For the .exe version, try right-clicking and selecting "Run as administrator".
+
+**Q: Files aren't moving**  
+A: Check if files are open in another program. Close them and try again.
+
+**Q: "Permission denied" errors**  
+A: Some folders need administrator access. Try organizing to a different location like your Desktop or Documents folder.
+
+**Q: Can I organize system folders?**  
+A: No, and you shouldn't! The app blocks access to Windows system folders for your safety.
+
+**Q: Where is the undo log stored?**  
+A: Next to the executable in a file called `audit_*.json`. On USB drives, it travels with the app.
+
+## 📝 License
+
+MIT License - See LICENSE file for details.
+
+## 🙏 Credits
+
+Built with ❤️ for people who just want their files organized without learning complicated software.

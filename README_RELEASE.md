@@ -1,54 +1,157 @@
-# Smart File Organizer Release Guide
+# 📦 Smart File Organizer - Build & Release Guide
 
-Smart File Organizer is a local, offline file organization dashboard. It starts a tiny Python standard-library web server, opens your browser, previews planned moves, and only moves files after confirmation.
+For end-user documentation, see [README.md](README.md).
 
-## Run from source
+## 🎯 What This Is
+
+Smart File Organizer is a **single-file executable** that runs a local web server and opens in your browser. No installation, no dependencies, no internet required after building.
+
+Perfect for distributing to non-technical users via USB drive or email.
+
+## 🔨 Building
+
+### Windows (Recommended)
+
+1. On a Windows 10/11 computer with Python 3.9+:
+   ```bat
+   build_windows.bat
+   ```
+
+2. Output: `dist\SmartOrganizer.exe` (~15-25 MB)
+
+3. Test on a clean machine:
+   - Copy ONLY the .exe to a USB drive
+   - Plug into computer with NO Python installed
+   - Double-click - it should work!
+
+### macOS / Linux
 
 ```bash
-python main_entry.py
+pip install pyinstaller
+pyinstaller build.spec
 ```
 
-Open `http://localhost:8787` if the browser does not open automatically.
+Note: You need to create a `build.spec` file similar to the Windows version.
 
-## Build a single Windows EXE
+## 🧪 Testing Before Release
 
-Requirements on the build computer:
+1. **Clean Machine Test**: Test on a computer with no Python
+2. **USB Portability**: Verify it works from USB drive
+3. **Undo Function**: Organize files, then click Undo
+4. **Error Handling**: Try organizing locked/open files
+5. **Large Folders**: Test with 1000+ files
+6. **Duplicate Detection**: Include identical files
 
-- Python 3.9+
-- Internet access only while installing PyInstaller
-- 2-3 GB free disk space recommended for the build cache
+## 📁 Files Included in Build
 
-```bat
-build_windows.bat
-```
+The PyInstaller spec should bundle:
+- `main_entry.py` - Application entry point
+- `web_server.py` - HTTP server
+- `organizer_core.py` - File organization logic
+- `frontend.html` - User interface
+- `assets/tailwind-offline.css` - Styling
 
-The output is `dist\SmartOrganizer.exe`. Copy that file to any Windows computer or USB drive and double-click it. No admin rights are required.
-
-## Build on macOS or Linux
+## ⚙️ Runtime Options
 
 ```bash
-./build_mac.sh
+# Default: Opens browser, stores data next to EXE
+SmartOrganizer.exe
+
+# Custom port
+SmartOrganizer.exe --port 9000
+
+# Don't open browser automatically
+SmartOrganizer.exe --no-browser
+
+# Store data in OS AppData instead of next to EXE
+SmartOrganizer.exe --appdata
 ```
 
-PyInstaller can only produce native binaries for the operating system it runs on. Build Windows releases on Windows and macOS releases on macOS.
+## 📊 Data Storage
 
-## Data and portability
+### Portable Mode (Default)
+- Undo logs: Next to EXE as `audit_*.json`
+- Application data: Same folder as EXE
+- Perfect for USB drives
 
-By default, logs and undo data are written next to the executable so the app remains portable on USB drives. Start with `--appdata` if you prefer the operating system app-data folder.
+### AppData Mode (--appdata flag)
+- Windows: `%APPDATA%\SmartOrganizer\`
+- macOS: `~/Library/Application Support/SmartOrganizer/`
+- Linux: `~/.local/share/SmartOrganizer/`
 
-## Offline assets
+## 🔒 Security Features Built-In
 
-The release embeds `frontend.html` and `assets/tailwind-offline.css`. Do not replace these with CDN-only assets before building, or the app will require internet access.
+✅ Path traversal protection  
+✅ Rate limiting (10 requests/minute)  
+✅ Input validation on all API endpoints  
+✅ Transaction safety with rollback  
+✅ Allowed directories whitelist  
+✅ Content Security Policy headers  
 
-## Safety features
+## 🐛 Troubleshooting Builds
 
-- Preview-first workflow
-- Large confirmation modal before moving files
-- Undo log for the most recent run
-- Locked, missing, or permission-denied files are skipped and reported
-- Conflict handling can skip duplicates or keep both with an automatic suffix
-- Smart grouping suggests related files using name similarity and timestamp proximity
+**Build fails with "module not found"**  
+→ Ensure all Python files are in the same directory as build.spec
 
-## Size target
+**EXE too large (>50 MB)**  
+→ Check that PyInstaller isn't bundling unnecessary modules
 
-The spec excludes GUI and documentation modules that are not needed by the app. Final size depends on operating system and Python distribution, but should remain comfortably below the target on most Python 3.9+ installs.
+**App won't start on clean machine**  
+→ Test with `--no-browser` flag and manually open http://localhost:8787
+
+**CSS not loading**  
+→ Verify `assets/tailwind-offline.css` is included in build.spec datas
+
+## 📈 Performance Expectations
+
+| Task | Expected Speed |
+|------|----------------|
+| Scan 100 files | < 1 second |
+| Scan 10,000 files | 10-30 seconds |
+| Move 1 GB of files | Depends on disk speed |
+| Duplicate detection | ~100 MB/sec hashing |
+
+## 🎨 Customization
+
+### Change Categories
+Edit `CATEGORY_MAP` in `organizer_core.py`:
+
+```python
+CATEGORY_MAP = {
+    "Documents": {".pdf", ".doc", ".docx"},
+    "MyCustomType": {".xyz", ".abc"},
+}
+```
+
+### Change Colors/Theme
+Edit `assets/tailwind-offline.css` or `frontend.html`
+
+### Add Keyboard Shortcuts
+Add to the `<script>` section in `frontend.html`
+
+## 📝 Version History Template
+
+```markdown
+## v1.0.0 (YYYY-MM-DD)
+- Initial release
+- Preview-first design
+- SHA-256 duplicate detection
+- Undo functionality
+- Transaction safety
+- Path traversal protection
+```
+
+## 🚀 Distribution Tips
+
+1. **VirusTotal**: Upload your .exe before distributing to get a clean report
+2. **Code Signing**: Consider signing for Windows SmartScreen (optional)
+3. **Instructions**: Include a simple README.txt with the .exe
+4. **Test Folder**: Create a test folder with sample files for first-time users
+5. **Video Tutorial**: Record a 2-minute screen capture showing how it works
+
+## 📞 Support
+
+For issues or questions, check:
+- [README.md](README.md) - User guide
+- Tests in `tests/` - Example usage
+- Source code comments - Technical details
